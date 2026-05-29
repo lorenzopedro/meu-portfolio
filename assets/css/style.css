@@ -1,0 +1,231 @@
+body {
+            font-family: 'Inter', sans-serif;
+        }
+
+        /* Fix Safari/Chrome Border Radius Bug */
+        .tilt-inner {
+            transform: translateZ(0);
+            -webkit-mask-image: -webkit-radial-gradient(white, black);
+        }
+
+        /* Liquid Blob Animation */
+        .blob {
+            border-radius: 40% 60% 70% 30% / 40% 50% 60% 50%;
+            animation: morph 12s ease-in-out infinite alternate;
+            background-image: linear-gradient(45deg, #3b82f6 0%, #8b5cf6 100%);
+        }
+
+        @keyframes morph {
+            0%, 100% {
+                border-radius: 40% 60% 70% 30% / 40% 50% 60% 50%;
+            }
+            34% {
+                border-radius: 70% 30% 50% 50% / 30% 30% 70% 70%;
+            }
+            67% {
+                border-radius: 100% 60% 60% 100% / 100% 100% 60% 60%;
+            }
+        }
+
+        /* Animations */
+        .carousel-track {
+            animation: vertical-scroll 12s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+        }
+
+        @keyframes vertical-scroll {
+
+            0%,
+            25% {
+                transform: translateY(0);
+            }
+
+            33.33%,
+            58.33% {
+                transform: translateY(-33.33%);
+            }
+
+            66.66%,
+            91.66% {
+                transform: translateY(-66.66%);
+            }
+
+            100% {
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes float {
+
+            0%,
+            100% {
+                transform: translateY(0);
+            }
+
+            50% {
+                transform: translateY(-8px);
+            }
+        }
+
+        .animate-float {
+            animation: float 6s ease-in-out infinite;
+        }
+
+        .animate-float-delayed {
+            animation: float 6s ease-in-out infinite;
+            animation-delay: 2s;
+        }
+
+        /* Section transition color interpolation */
+        #main-wrapper {
+            background-color: #F3F3F1;
+            transition: none; /* GSAP handles this */
+        }
+
+        /* Header color transition */
+        #site-header {
+            transition: background-color 0.3s ease, border-color 0.3s ease;
+        }
+        #site-header.dark-mode {
+            background-color: rgba(10,10,10,0.95) !important;
+            border-bottom-color: rgba(255,255,255,0.08) !important;
+        }
+        #site-header.dark-mode .nav-link {
+            color: rgba(156,163,175,1);
+        }
+        #site-header.dark-mode .nav-link:hover {
+            color: white;
+        }
+        #site-header.dark-mode .nav-logo-bar {
+            background-color: white !important;
+        }
+        #site-header.dark-mode .nav-logo-text {
+            color: white !important;
+        }
+
+        /* ============================================================
+           PARALLAX CURTAIN REVEAL SYSTEM
+           The dark panel (#dark-curtain-panel) stays sticky at the
+           bottom of the viewport while #projetos scrolls up over it.
+           ============================================================ */
+        #parallax-transition-zone {
+            position: relative;
+        }
+        /* Projetos section gets extra bottom padding to allow the
+           curtain reveal scroll distance */
+        #projetos {
+            position: relative;
+            z-index: 2;
+        }
+        /* The dark panel is the sticky anchor beneath projetos */
+        #dark-curtain-panel {
+            position: sticky;
+            bottom: 0;
+            z-index: 1;
+            /* height is set to 100vh so it fills the viewport */
+            /* This creates the illusion the dark section is always "behind" */
+        }
+
+        /* Wave divider between light and dark sections */
+        .section-wave-divider {
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            width: 100%;
+            overflow: visible;
+            line-height: 0;
+            pointer-events: none;
+            z-index: 10;
+        }
+        .section-wave-divider svg {
+            display: block;
+            width: calc(100% + 4px);
+            margin-left: -2px;
+            overflow: visible;
+        }
+
+        /* Spin keyframe for atom */
+        @keyframes spin {
+            from { transform: rotate(0deg); }
+            to   { transform: rotate(360deg); }
+        }
+
+        /* ============================================================
+           CURTAIN REVEAL: Reviews slides up, exposing sticky CTA below
+           ============================================================ */
+
+        /* Zone that contains both Reviews (curtain) + CTA (sticky floor) */
+        #reviews-cta-zone {
+            position: relative;
+            /* Extra height gives scroll room for the curtain animation */
+            /* Actual height is controlled via JS / padding */
+        }
+
+        /* CTA is the sticky floor — always visible at the bottom of the zone */
+        #contato {
+            position: sticky;
+            bottom: 0;
+            z-index: 10;
+            /* overflow must be hidden so blob etc. don't leak out */
+            overflow: hidden;
+        }
+
+        /* Reviews acts as the curtain — starts covering CTA, slides up as we scroll */
+        #reviews {
+            position: relative;
+            z-index: 20;
+            /* will-change: clip-path enables GPU compositing for the mask animation */
+            will-change: clip-path;
+            /* Default state: fully visible (covers everything) */
+            clip-path: inset(0 0 0 0);
+        }
+
+        /* Wrapper that makes the Reviews section tall enough to scroll the curtain */
+        #reviews-scroll-spacer {
+            /* Height is added by JS based on viewport */
+            display: block;
+        }
+
+        /* The organic liquid edge at the bottom of the Reviews curtain */
+        #reviews-bottom-edge {
+            position: absolute;
+            bottom: -2px;
+            left: -2px;
+            right: -2px;
+            pointer-events: none;
+            z-index: 30;
+            line-height: 0;
+            overflow: visible;
+        }
+        #reviews-bottom-edge svg {
+            display: block;
+            width: calc(100% + 4px);
+            overflow: visible;
+        }
+
+        /* Blur vignette that fades as curtain opens */
+        #reviews-blur-vignette {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 200px;
+            /* dark-to-transparent bottom fade */
+            background: linear-gradient(to bottom, transparent, rgba(10,10,10,0.95));
+            pointer-events: none;
+            z-index: 25;
+            /* backdrop-filter blur — dissipates via GSAP */
+            backdrop-filter: blur(0px);
+            -webkit-backdrop-filter: blur(0px);
+        }
+
+        /* CTA words start hidden — GSAP controls reveal */
+        .cta-word {
+            display: inline-block;
+            overflow: hidden;
+            vertical-align: bottom;
+        }
+        .cta-word-inner {
+            display: inline-block;
+            transform: translateY(110%);
+            opacity: 0;
+        }

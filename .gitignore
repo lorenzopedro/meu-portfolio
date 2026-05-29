@@ -1,0 +1,41 @@
+# Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Dependências (caso você utilize npm ou yarn futuramente para instalar pacotes)
+node_modules/
+jspm_packages/
+
+# Arquivos temporários e de cache do SO (Evita subir lixo no repositório)
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+desktop.ini
+
+# Variáveis de ambiente (Segurança: NUNCA commite senhas ou chaves de API)
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# Builds de produção (Se futuramente você usar um bundler como Vite ou Webpack)
+/dist
+/build
+/out
+
+# Arquivos de IDE e Editores (Otimização: evita conflito entre desenvolvedores)
+.idea/
+.vscode/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
